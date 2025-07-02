@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import User from "./User";
 import Form from "./Form";
 
 export default function UserList() {
-  const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')) ?? []);
+  const [users, setUsers] = useState([]);
   
+  useEffect(()=>{
+    const stored  = JSON.parse(localStorage.getItem('users'));
+    if(stored){
+      setUsers(stored);
+    }
+  },[])
 
   return (
     <div className="relative overflow-x-auto">
