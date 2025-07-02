@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Form({ setUsers }) {
+export default function Form({ users,setUsers }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [username, setUsername] = useState("");
   function handleSubmit(e) {
@@ -8,6 +8,7 @@ export default function Form({ setUsers }) {
     setUsers((prev) => [...prev, { user: username, phone: phoneNumber }]);
     setPhoneNumber("");
     setUsername("");
+    localStorage.setItem("users", JSON.stringify([...users, {user: username, phone: phoneNumber}]))
   }
   return (
     <form onSubmit={handleSubmit} className="flex gap-4">
