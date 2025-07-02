@@ -4,6 +4,7 @@ export default function User({ users, setUsers, id }) {
     setUsers(toSave);
     localStorage.setItem('users', JSON.stringify(toSave));
   }
+  
   return (
     <>
       <td className="px-6 py-4">{users[id].user}</td>

@@ -11,5 +11,5 @@ export default function Timer() {
     return () => clearInterval(interval);
   }, []);
 
-  return <div>{new Date(date).toLocaleTimeString()}</div>;
+  return <div className="absolute top-0.5 left-0.5 text-2xl ">{new Date(date).toLocaleTimeString()}</div>;
 }
