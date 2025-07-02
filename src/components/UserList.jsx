@@ -7,24 +7,39 @@ export default function UserList() {
   const [nbUsers, setNbUsers] = useState(users.length);
 
   return (
-    <div className="flex flex-col gap-4 w-full justify-center">
+    <div className="relative overflow-x-auto">
       <div className="flex flex-col gap-4 fixed top-8 left-1/2 -translate-x-1/2">
         <h1 className="">{nbUsers} utilisateurs</h1>
         <Form setUsers={setUsers} setNbUsers={setNbUsers} />
       </div>
-      <ul className="flex flex-col gap-4 justify-center items-center h-[40vh] w-full overflow-auto pt-10 p-8">
-        {users.map((item, index) => (
-          <li key={index} className="flex items-center gap-2">
-            <User
-              users={users}
-              setUsers={setUsers}
-              setNbUsers={setNbUsers}
-              id={index}
-              user={item}
-            />
-          </li>
-        ))}
-      </ul>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              Nom d'utilisateur
+            </th>
+            <th scope="col" class="px-6 py-3">
+              N° de téléphone
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((item, index) => (
+            <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+              <User
+                users={users}
+                setUsers={setUsers}
+                setNbUsers={setNbUsers}
+                id={index}
+                user={item}
+              />
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

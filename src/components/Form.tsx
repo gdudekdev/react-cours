@@ -5,7 +5,7 @@ export default function Form({ setUsers, setNbUsers }) {
   const [username, setUsername] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
-    setUsers((prev) => [...prev, {user : username , phone : phoneNumber}]);
+    setUsers((prev) => [...prev, { user: username, phone: phoneNumber }]);
     setNbUsers((prev) => prev + 1);
     setPhoneNumber("");
     setUsername("");
