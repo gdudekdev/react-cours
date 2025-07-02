@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-export default function Form({ setUsers, setPhoneNumbers, setNbUsers }) {
+export default function Form({ setUsers, setNbUsers }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [username, setUsername] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
-    setPhoneNumbers((prev) => [...prev, phoneNumber]);
-    setUsers((prev) => [...prev, username]);
+    setUsers((prev) => [...prev, {user : username , phone : phoneNumber}]);
     setNbUsers((prev) => prev + 1);
     setPhoneNumber("");
     setUsername("");
