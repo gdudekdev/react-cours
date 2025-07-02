@@ -1,8 +1,8 @@
 export default function User({ users, setUsers, id }) {
   function deleteUser() {
-    setUsers(users.filter((item, i) => i != id));
-    const saved = JSON.parse(localStorage.getItem('users')); 
-    localStorage.setItem('users', JSON.stringify(saved.filter((item,i)=> i!=id)));
+    const toSave = users.filter((item, i) => i != id);
+    setUsers(toSave);
+    localStorage.setItem('users', JSON.stringify(toSave));
   }
   return (
     <>
