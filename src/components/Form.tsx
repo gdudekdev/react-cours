@@ -19,6 +19,7 @@ export default function Form({ setUsers, setPhoneNumbers, setNbUsers }) {
         value={phoneNumber}
         placeholder="Enter your phone number"
         className="p-2 rounded-sm"
+        required
       />
       <input
         type="text"
@@ -26,6 +27,7 @@ export default function Form({ setUsers, setPhoneNumbers, setNbUsers }) {
         value={username}
         placeholder="Enter your name"
         className="p-2 rounded-sm"
+        required
       />
       <input type="submit" value="Confirm" />
     </form>
