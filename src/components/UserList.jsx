@@ -4,13 +4,12 @@ import Form from "./Form";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
-  const [nbUsers, setNbUsers] = useState(users.length);
 
   return (
     <div className="relative overflow-x-auto">
       <div className="flex flex-col gap-4 fixed top-8 left-1/2 -translate-x-1/2">
-        <h1 className="">{nbUsers} utilisateurs</h1>
-        <Form setUsers={setUsers} setNbUsers={setNbUsers} />
+        <h1 className="">{users.length} utilisateurs</h1>
+        <Form setUsers={setUsers} />
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -34,9 +33,7 @@ export default function UserList() {
                 <User
                   users={users}
                   setUsers={setUsers}
-                  setNbUsers={setNbUsers}
                   id={index}
-                  user={item}
                 />
               </tr>
             ))}
@@ -46,3 +43,4 @@ export default function UserList() {
     </div>
   );
 }
+
