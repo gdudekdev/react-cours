@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import User from "./User";
 import Form from "./Form";
+import Search from "./Search";
+import PatchForm from "./PatchForm";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const [isPatchMode, setIsPatchMode] = useState(false);
+  const [userToPatch, setUserToPatch] = useState({id : -1, user : {user : "", phone :""}});
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("users"));
@@ -12,7 +16,10 @@ export default function UserList() {
       setUsers(stored);
     }
   }, []);
- 
+  const patchUser = (user) => {
+    setIsPatchMode(true);
+    setUserToPatch(user);
+  };
   const filteredUsers = users.filter(
     (user) =>
       user.user.toLowerCase().includes(search.toLowerCase()) ||
@@ -24,42 +31,19 @@ export default function UserList() {
         <h2 className="text-4xl font-bold dark:text-white">
           {users.length} utilisateurs
         </h2>
-
-        <label
-          for="default-search"
-          class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >
-          Search
-        </label>
-        <div class="relative">
-          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg
-              class="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-          </div>
-          <input
-            type="search"
-            id="default-search"
-            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search by Users or Phone Number"
-            value={search}
-            onChange={(e)=>setSearch(e.target.value)}
+        <Search search={search} setSearch={setSearch} />
+        {isPatchMode ? (
+          <PatchForm
+            id={userToPatch.id}
+            user={userToPatch.data}
+            setUsers={setUsers}
+            users={users}
+            setIsPatchMode={setIsPatchMode}
           />
-        </div>
+        ) : (
+          <Form setUsers={setUsers} users={users}  />
+        )}
 
-        <Form setUsers={setUsers} users={users} />
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -80,7 +64,7 @@ export default function UserList() {
                 key={index}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
               >
-                <User users={filteredUsers} setUsers={setUsers} id={index} />
+                <User users={filteredUsers} setUsers={setUsers} id={index} patchUser={patchUser} />
               </tr>
             ))}
           </tbody>
