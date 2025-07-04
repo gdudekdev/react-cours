@@ -8,7 +8,7 @@ export default function UserList() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [isPatchMode, setIsPatchMode] = useState(false);
-  const [userToPatch, setUserToPatch] = useState({id : -1, user : {user : "", phone :""}});
+  const [userToPatch, setUserToPatch] = useState({});
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("users"));
@@ -17,7 +17,7 @@ export default function UserList() {
     }
   }, []);
   const patchUser = (user) => {
-    setIsPatchMode(true);
+    setIsPatchMode(prev=>!prev);
     setUserToPatch(user);
   };
   const filteredUsers = users.filter(

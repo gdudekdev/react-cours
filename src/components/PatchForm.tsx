@@ -11,12 +11,12 @@ export default function PatchForm({
   function handleSubmit(e) {
     e.preventDefault();
     const newUsers = users.map((user, index) =>
-      index === id ? { ...user, ...patchedUser } : user
+      index === id ? { ...patchedUser } : user
     );
     setUsers(newUsers);
     localStorage.setItem("users", JSON.stringify(newUsers));
-    setPatchedUser({ id: -1, user: { user: "", phone: "" } });
-    setIsPatchMode(false);
+    setPatchedUser({});
+    setIsPatchMode(prev=>!prev);
   }
   return (
     <form onSubmit={handleSubmit} className="flex gap-4">
