@@ -9,6 +9,7 @@ export default function User({ users, setUsers, id, patchUser }) {
     <>
       <td className="px-6 py-4">{users[id].user}</td>
       <td className="px-6 py-4">{users[id].phone}</td>
+      <td className="px-6 py-4">{users[id].country}</td>
       <td className="px-6 py-4 flex gap-1">
         <button onClick={()=>patchUser({ id: id, data: users[id] })}>
           Modifier
