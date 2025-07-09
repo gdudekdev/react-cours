@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-export default function Search({ search, setSearch}) {
-
+export default function Search({ search, setSearch }) {
   return (
     <>
       <div className="relative">
@@ -25,11 +24,34 @@ export default function Search({ search, setSearch}) {
         <input
           type="search"
           id="default-search"
-          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:borde-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+          className="block w-full p-4 ps-10 text-sm  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
           placeholder="Search by Name or Phone Number"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        {(search != "") ? (
+          <div
+            className="absolute inset-y-0 end-0 flex items-center pe-3 hover:cursor-pointer"
+            onClick={()=>setSearch("")}
+          >
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                width="800px"
+                height="800px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 5L4.99998 19M5.00001 5L19 19"
+                  stroke="#6a7282"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+          </div>
+        ) : (<></>)}
       </div>
     </>
   );

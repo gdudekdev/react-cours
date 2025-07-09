@@ -9,6 +9,8 @@ export default function PatchForm({
   countries,
 }) {
   const [patchedUser, setPatchedUser] = useState(user);
+  const [isSearchCountry, setIsSearchCountry] = useState(false);
+  const [filteredCountries, setFilteredCountries] = useState<any[]>([]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -17,12 +19,30 @@ export default function PatchForm({
     );
     setUsers(newUsers);
     localStorage.setItem("users", JSON.stringify(newUsers));
-    setPatchedUser({});
-    setIsPatchMode((prev) => !prev);
+    setIsPatchMode(false);
   }
 
+  const handleChangeCountry = (e) => {
+    const value = e.target.value;
+    setPatchedUser((prev) => ({
+      ...prev,
+      country: value,
+    }));
+
+    if (value === "") {
+      setFilteredCountries([]);
+      setIsSearchCountry(false);
+    } else {
+      const filtered = countries.filter((c) =>
+        c.name.common.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredCountries(filtered);
+      setIsSearchCountry(true);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="flex gap-4 w-[60vw]">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 relative">
       <input
         type="text"
         onChange={(e) =>
@@ -33,8 +53,8 @@ export default function PatchForm({
         }
         value={patchedUser.user}
         placeholder="Name"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-4 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         required
+        className="block w-full ps-4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
       />
       <input
         type="text"
@@ -47,32 +67,42 @@ export default function PatchForm({
         value={patchedUser.phone}
         placeholder="Phone number"
         required
-        id="phone-input"
-        aria-describedby="helper-text-explanation"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-4 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="block w-full ps-4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
       />
-      <select
-        name="country"
-        id="country"
-        value={patchedUser.country || ""}
-        onChange={(e) =>
-          setPatchedUser((prev) => ({
-            ...prev,
-            country: e.target.value,
-          }))
-        }
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      >
-        {countries.map((country, idx) => (
-          <option key={idx} value={country.name.common}>
-            {country.name.common}
-          </option>
-        ))}
-      </select>
+      <div className="relative w-full">
+        <input
+          type="text"
+          value={patchedUser.country || ""}
+          onChange={handleChangeCountry}
+          placeholder="Country"
+          className="block w-full ps-4 p-2.5 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          required
+        />
+        {isSearchCountry && filteredCountries.length > 0 && (
+          <ul className="absolute top-full left-0 z-10 bg-white dark:bg-gray-700 border border-gray-300 max-h-40 overflow-y-auto w-full">
+            {filteredCountries.map((c, idx) => (
+              <li
+                key={idx}
+                onClick={() => {
+                  setPatchedUser((prev) => ({
+                    ...prev,
+                    country: c.name.common,
+                  }));
+                  setIsSearchCountry(false);
+                  setFilteredCountries([]);
+                }}
+                className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 p-2"
+              >
+                {c.name.common}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <input
         type="submit"
         value="Confirm"
-        className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        className="font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
       />
     </form>
   );

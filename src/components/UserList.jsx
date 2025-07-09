@@ -13,11 +13,11 @@ export default function UserList() {
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("users"));
+    const storedCountries = JSON.parse(localStorage.getItem("countries"));
     if (stored) {
       setUsers(stored);
     }
-    console.log("Country list");
-    fetchCountries();
+    storedCountries ? setCountries(storedCountries) : fetchCountries();
   }, []);
 
   const fetchCountries = async () => {
@@ -30,13 +30,10 @@ export default function UserList() {
         throw new Error("Erreur lors de la récupération des données");
       }
       const data = await response.json();
-      console.log(data);
+      localStorage.setItem("countries", JSON.stringify(data));
       setCountries(data);
     } catch (err) {
       console.log(err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -47,7 +44,7 @@ export default function UserList() {
   const filteredUsers = users.filter(
     (user) =>
       user.user.toLowerCase().includes(search.toLowerCase()) ||
-      user.phone.toLowerCase().includes(search.toLowerCase())||
+      user.phone.toLowerCase().includes(search.toLowerCase()) ||
       user.country.toLowerCase().includes(search.toLowerCase())
   );
   return (

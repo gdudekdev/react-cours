@@ -1,12 +1,11 @@
 import "./App.css";
-import CountryList from "./components/CountryList";
 import Timer from "./components/Timer";
 import UserList from "./components/UserList";
 
 function App() {
   return (
     <>
-    <div className="relative">
+    <div className="relative w-[50vw]">
       <UserList />
     </div>
       <Timer />
