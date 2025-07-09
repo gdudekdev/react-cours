@@ -15,12 +15,12 @@ function App() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
 
-  // const filteredUsers = users.filter(
-  //   (user) =>
-  //     user.name.toLowerCase().includes(search.toLowerCase()) ||
-  //     user.phoneNumber.includes(search) ||
-  //     user.country.toLowerCase().includes(search.toLowerCase())
-  // );
+  const filteredUsers = users.filter(
+    (user) =>
+      user?.name.toLowerCase().includes(search.toLowerCase()) ||
+      user.phoneNumber.includes(search) ||
+      user.country.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     console.log("Load");
